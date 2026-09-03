@@ -28,6 +28,7 @@
 #include "absl/strings/string_view.h"
 #include "mediapipe/framework/calculator_framework.h"
 #include "mediapipe/framework/port/file_helpers.h"
+#include "mediapipe/framework/port/logging.h"
 #include "mediapipe/framework/port/map_util.h"
 #include "mediapipe/framework/port/parse_text_proto.h"
 #include "mediapipe/framework/port/ret_check.h"
