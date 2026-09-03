@@ -13,6 +13,7 @@
 # limitations under the License.
 
 load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
 
 licenses(["notice"])
 
@@ -55,6 +56,21 @@ cc_binary(
     ],
 )
 
+# UDP sink for WORLD_LANDMARKS. alwayslink so REGISTER_CALCULATOR is kept.
+cc_library(
+    name = "udp_hand_landmarks_calculator",
+    srcs = ["udp_hand_landmarks_calculator.cc"],
+    deps = [
+        "//mediapipe/framework:calculator_framework",
+        "//mediapipe/framework/formats:classification_cc_proto",
+        "//mediapipe/framework/formats:landmark_cc_proto",
+        "//mediapipe/framework/port:ret_check",
+        "//mediapipe/framework/port:status",
+        "@com_google_absl//absl/log:absl_log",
+    ],
+    alwayslink = 1,
+)
+
 # Linux only
 cc_binary(
     name = "hand_tracking_gpu",
@@ -63,6 +79,7 @@ cc_binary(
         "//mediapipe/modules/palm_detection:palm_detection_full.tflite",
     ],
     deps = [
+        ":udp_hand_landmarks_calculator",
         "//mediapipe/examples/desktop:demo_run_graph_main_gpu",
         "//mediapipe/graphs/hand_tracking:mobile_calculators",
     ],
